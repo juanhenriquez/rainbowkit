@@ -16,14 +16,22 @@ const stopPropagation: MouseEventHandler<unknown> = event =>
   event.stopPropagation();
 
 interface DialogProps {
+  container?: HTMLElement;
   open: boolean;
   onClose: () => void;
   titleId: string;
+  portalMode?: boolean;
   onMountAutoFocus?: (event: Event) => void;
   children: ReactNode;
 }
 
-export function Dialog({ children, onClose, open, titleId }: DialogProps) {
+export function Dialog({
+  children,
+  container,
+  onClose,
+  open,
+  titleId,
+}: DialogProps) {
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) =>
       open && event.key === 'Escape' && onClose();
@@ -62,7 +70,7 @@ export function Dialog({ children, onClose, open, titleId }: DialogProps) {
                 </Box>
               </Box>
             </RemoveScroll>,
-            document.body
+            container || document.body
           )
         : null}
     </>
